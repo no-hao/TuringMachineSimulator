@@ -1,24 +1,22 @@
-from utils import read_tm_config
-from turing_machine import (
-    TuringMachine,
-)  # Make sure to have the updated TuringMachine class
-
-
-def main():
-    # Read configurations
-    config = read_tm_config("data/TM.txt")
-
-    # Get user input for tape
-    input_string = input(
-        "Enter the starting tape with one leading and one trailing blank (_): "
-    )
-
-    # Initialize and validate Turing Machine
-    tm = TuringMachine(config, initial_tape=input_string)  # Pass the initial tape here
-
-    # Execute Turing Machine
-    tm.execute()
-
+import os
+from tm_reader import read_tm_config
+from tm_simulator import simulate_tm
 
 if __name__ == "__main__":
-    main()
+    print(">>>Reading TM.txt...")
+
+    # Get the directory where main.py is located
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    # Construct the path to TM.txt
+    data_path = os.path.join(dir_path, "..", "data", "TM.txt")
+
+    # Now use data_path in the read_tm_config function
+    num_states, halt_state, transitions = read_tm_config(data_path)
+
+    tape_input = input(
+        ">>>Enter the starting tape with one leading and one trailing blank (_): "
+    )
+    tape = list(tape_input)
+    print(">>>Processing...")
+    simulate_tm(tape, num_states, halt_state, transitions)
