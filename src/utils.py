@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 
+# Assuming you already have read_tm_config implemented
 def read_tm_config(file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
