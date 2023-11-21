@@ -14,9 +14,19 @@ if __name__ == "__main__":
     # Now use data_path in the read_tm_config function
     num_states, halt_state, transitions = read_tm_config(data_path)
 
-    tape_input = input(
-        ">>>Enter the starting tape with one leading and one trailing blank (_): "
-    )
-    tape = list(tape_input)
-    print(">>>Processing...")
-    simulate_tm(tape, num_states, halt_state, transitions)
+    # Loop for processing and re-entering tape input
+    while True:
+        tape_input = input(
+            ">>>Enter the starting tape with one leading and one trailing blank (_), or 'exit' to quit: "
+        )
+        if tape_input.lower() == "exit":
+            break
+        tape = list(tape_input)
+
+        # Validate or modify the tape here if necessary
+        # ...
+
+        print(">>>Processing...")
+        simulate_tm(tape, num_states, halt_state, transitions)
+
+        print("\n>>>Simulation complete. Enter new tape or 'exit' to quit.")
