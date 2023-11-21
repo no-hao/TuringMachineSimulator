@@ -10,6 +10,10 @@ def simulate_tm(tape, num_states, halt_state, transitions):
     - transitions (dict): The state transition rules.
     """
 
+    # TODO: loop prompt for tape input
+
+    # TODO: potentially, add extra tape space before and after input for processing.. _____01001_____
+
     # Check for invalid input parameters.
     if tape is None or num_states is None or halt_state is None or transitions is None:
         print("Invalid input parameters.")
@@ -32,6 +36,7 @@ def simulate_tm(tape, num_states, halt_state, transitions):
             (current_state, tape[head]), (None, None, None)
         )
 
+        # TODO: determine if halting is the right verbage here, choose something else if not.
         # Check for invalid transition.
         if write is None:
             print("Invalid transition. Halting.")
@@ -41,6 +46,7 @@ def simulate_tm(tape, num_states, halt_state, transitions):
         tape[head] = write
         head += 1 if move == "R" else -1
 
+        # TODO: head cant be out of bounds of tape for theoretical infinite tape. fix.
         # Check for out-of-bounds head movement.
         if head < 0 or head >= len(tape):
             print("Head moved out of tape bounds. Halting.")
