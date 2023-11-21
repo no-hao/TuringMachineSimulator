@@ -1,26 +1,30 @@
-def simulate_tm(tape, num_states, halt_state, transitions):
+def simulate_tm(tape_input, num_states, halt_state, transitions):
     """
     Simulate the Turing Machine (TM) based on the given parameters.
     This function prints the TM configurations until it reaches the halting state.
 
     Parameters:
-    - tape (list): The initial tape configuration.
+    - tape_input (list): The initial tape configuration including leading and trailing blanks.
     - num_states (int): The total number of states in the TM.
     - halt_state (int): The halting state of the TM.
     - transitions (dict): The state transition rules.
     """
 
-    # TODO: loop prompt for tape input
+    # Calculate the number of extra spaces to add based on the length of the input
+    inf_tape = len(tape_input)
 
-    # TODO: potentially, add extra tape space before and after input for processing.. _____01001_____
+    # Add extra space before and after the input
+    tape = ["_"] * inf_tape + tape_input + ["_"] * inf_tape
+
+    # Initialize the head position at the first blank before the actual binary input
+    head = inf_tape
 
     # Check for invalid input parameters.
     if tape is None or num_states is None or halt_state is None or transitions is None:
         print("Invalid input parameters.")
         return
 
-    # Initialize head position and current state.
-    head = 0
+    # Initialize the current state.
     current_state = 0
 
     # Main simulation loop.
@@ -36,21 +40,21 @@ def simulate_tm(tape, num_states, halt_state, transitions):
             (current_state, tape[head]), (None, None, None)
         )
 
-        # TODO: determine if halting is the right verbage here, choose something else if not.
         # Check for invalid transition.
         if write is None:
-            print("Invalid transition. Halting.")
+            print("Invalid transition. Entering error state and stopping.")
             return
 
-        # Write to tape and move head.
+        # Write to the tape and move the head.
         tape[head] = write
         head += 1 if move == "R" else -1
 
-        # TODO: head cant be out of bounds of tape for theoretical infinite tape. fix.
-        # Check for out-of-bounds head movement.
-        if head < 0 or head >= len(tape):
-            print("Head moved out of tape bounds. Halting.")
-            return
+        # Extend the tape if the head moves beyond the current bounds
+        if head < 0:
+            tape.insert(0, "_")
+            head = 0
+        elif head >= len(tape):
+            tape.append("_")
 
         # Update the current state.
         current_state = next_state
